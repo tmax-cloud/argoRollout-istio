@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookinfo-ingress
+  labels:
+    ingress.tmaxcloud.org/name: bookinfo
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: tmax-cloud
+  rules:
+    - host: bookinfo.tmaxcloud.org
+      http:
+       paths:
+         - pathType: Prefix
+           path: /
+           backend:
+             service:
+               name: productpage
+               port:
+                 number: 9080

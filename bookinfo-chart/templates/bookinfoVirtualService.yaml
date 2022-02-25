@@ -1,0 +1,56 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: productpage
+spec:
+  hosts:
+  - productpage.{{ .Values.VirtualServiceHost }}
+  http:
+  - route:
+    - destination:
+        host: productpage.{{ .Values.VirtualServiceHost }}
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  hosts:
+  - ratings
+  http:
+  - route:
+    - destination:
+        host: ratings
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: details
+spec:
+  hosts:
+  - details
+  http:
+  - route:
+    - destination:
+        host: details
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  hosts:
+    - reviews.{{ .Values.VirtualServiceHost }}
+  http:
+  - route:
+    - destination:
+        host: reviews.{{ .Values.VirtualServiceHost }}
+        subset: stable
+      weight: 100
+    - destination:
+        host: reviews.{{ .Values.VirtualServiceHost }}
+        subset: canary
+      weight: 0

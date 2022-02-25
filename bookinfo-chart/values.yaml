@@ -1,0 +1,13 @@
+nameSpace: bookinfo
+VirtualServiceHost: bookinfo.svc.cluster.local
+
+ingressHost: "bookinfo.hayeona92.link"
+ingressClass: nginx
+ingressAnnotations: {} #traefik.ingress.kubernetes.io/router.entrypoints: websecure
+
+argoRollout:
+  replicas: 5
+  maxSurge: "25%"
+  maxUnavailable: 0
+  setWeight: 10
+  duration: "30s"

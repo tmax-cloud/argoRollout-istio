@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookinfo-ingress
+
+  {{- with .Values.ingressAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+#   traefik.ingress.kubernetes.io/router.entrypoints: web
+
+spec:
+  ingressClassName: {{ .Values.ingressClass }}
+  rules:
+    - host: {{ .Values.ingressHost }}
+      http:
+       paths:
+         - pathType: Prefix
+           path: /
+           backend:
+             service:
+               name: productpage
+               port:
+                 number: 9080
